@@ -17,14 +17,14 @@ from xml.etree import ElementTree as ET
 
 PATH = ''
 
-PATH_CUBEMX = ''  #'/home/s13/Install/STM32CubeMX/'
-PATH_CUBEIDE = ''  #'/opt/st/stm32cubeide_1.0.2/'
+PATH_CUBEMX = ''
+PATH_CUBEIDE = ''
 
 PATH_CUBEMX_MAC = ''
 PATH_CUBEIDE_MAC = ''
 
 PATH_CUBEMX_WIN = 'C:\\Program Files\\STMicroelectronics\\STM32Cube\\STM32CubeMX'
-PATH_CUBEIDE_WIN = ''
+PATH_CUBEIDE_WIN = 'C:\\ST\\'
 
 systems_fixedpath = ['Darwin', 'Windows']
 systems_supported = ['Darwin', 'Windows', 'Linux']
@@ -32,14 +32,18 @@ systems_supported = ['Darwin', 'Windows', 'Linux']
 URL_GITHUB = 'https://github.com/streamx3/stm32symutil'
 
 alt_func = ['all', 'none', 'first']
-alt_func_list = ['spi', 'sdmmc', 'i2c', 'uart', 'usart', 'usb', 'swd', 'jtag', 'tim', 'sai', 'adc', 'rcc', 'wkup',
-                 'lcd', 'tsc', 'dfsdm', 'fsmc', 'fmc', 'event', 'tsc']
+alt_func_list = ['adc', 'cec', 'dac', 'dcmi', 'ddr', 'debug', 'dfsdm', 'dsihost', 'eth', 'event', 'fdcan', 'fmc',
+                 'fsmc', 'hdp', 'i2c', 'jtag', 'lcd', 'ltdc', 'quad', 'rcc', 'sai', 'sdmmc', 'spdif', 'spi', 'swd',
+                 'sys', 'tamp', 'tim', 'trace', 'tsc', 'uart', 'usart', 'usb', 'wkup']
+
 input_opts = ['mcu=', 'af=', 'af_split=', 'power_split=', 'outfile=', 'help', 'version', 'mxpath=', 'idepath=']
-usage_opts = '--mcu MCU_name --af Alt_Func\n\t--power=Power_Align--outfile=OutFile\nExamples:\n' + \
+usage_opts = ' --mcu MCU_name --af Alt_Func\n\t--power=Power_Align--outfile=OutFile\nDetails:\n' + \
              '\t--mcu [STM32F103C8Tx/STM32L552MEYxQ] -- you can type in both upper and\n\t\tlower case, ' + \
                 'ommit x and everything that goes after that,\n\t\tbut onlyif anything after "x" is not ambiguous\n' +\
-             '\t--af [all/none/first] or a list like spi,sdmmc,i2c,uart,usart,usb,swd,' +\
-             '\n\t\tjtag,tim,sai,tsc,adc,rcc,wkup\n' +\
+             '\t--af [all/none/first] or a list like adc,cec,dac,dcmi,ddr,debug,dfsdm,\n' \
+             '\t\tdsihost,eth,event,fdcan,fmc,fsmc,hdp,i2c,jtag,lcd,ltdc,quad,\n' \
+             '\t\trcc,sai,sdmmc,spdif,spi,swd,sys,tamp,tim,trace,tsc,tsc,uart,\n' \
+             '\t\tusart,usb,wkup\n' +\
              '\t--af_split [y/n/yes/no] -- splits selected alternative functions\n\t\tin different columns\n' +\
              '\t--power_split [y/n/yes/no] -- if split selected, power pins will be put\n\t\tseparately below,' +\
              ' so they could be put into separate symbol\n' +\
@@ -48,7 +52,10 @@ usage_opts = '--mcu MCU_name --af Alt_Func\n\t--power=Power_Align--outfile=OutFi
              '\t--help -- display this help\n' +\
              '\t--version -- displays program\'s version\n' +\
              '\t--mxpath [PATH] -- temporal path to CubeMX on Linux\n' \
-             '\t--idepath [PATH] -- temporal path to CubeIDE on Linux'
+             '\t--idepath [PATH] -- temporal path to CubeIDE on Linux\n\n'\
+             'Example:\n'\
+             '\t --mcu stm32f103cbt --power_split y -o 1.xlsx --af spi,i2c,uart,wkup,sys'
+
 
 MCU = ''
 AF = 'first'
@@ -80,10 +87,20 @@ def check_known_files_presence(path):
 
 
 def locate_internal_mx(path):
-    content = os.listdir(path)
-    for c in content:
-        if c.startswith('com.st.stm32cube.common.mx_'):
-            return c
+    if os.path.exists(path) and os.path.isdir(path):
+        content = os.listdir(path)
+        for c in content:
+            if c.startswith('com.st.stm32cube.common.mx_'):
+                return c
+    return None
+
+
+def locate_ide_win(path):
+    if os.path.exists(path) and os.path.isdir(path):
+        content = os.listdir(path)
+        for c in content:
+            if c.startswith('STM32CubeIDE_'):
+                return path + c + os.path.sep + 'STM32CubeIDE' + os.path.sep
     return None
 
 
@@ -206,8 +223,12 @@ if __name__ == '__main__':
                 PATH = TMP
 
         if PATH == '':
-            if os.path.exists(PATH_CUBEIDE) and os.path.isdir(PATH_CUBEIDE):
-                TMP = PATH_CUBEIDE
+            if system == 'Windows':
+                PATH_CUBEIDE_SP = locate_ide_win(PATH_CUBEIDE)
+            else:
+                PATH_CUBEIDE_SP = PATH_CUBEIDE
+            if os.path.exists(PATH_CUBEIDE_SP) and os.path.isdir(PATH_CUBEIDE_SP):
+                TMP = PATH_CUBEIDE_SP
                 if TMP[-1:] != os.path.sep:
                     TMP += os.path.sep
                 if system == 'Darwin':
@@ -216,7 +237,7 @@ if __name__ == '__main__':
                 internal_mx = locate_internal_mx(TMP)
                 if internal_mx is None:
                     print('CubeMX not found and CubeIDE was not parsed correctly.\n' +
-                          'Please install CubeMX or report a bug:\n' + URL_GITHUB)
+                          'Please install CubeMX/CubeIDE or report a bug:\n' + URL_GITHUB)
                     sys.exit(-1)
                 TMP += internal_mx + os.path.sep + 'db' + os.path.sep + 'mcu' + os.path.sep
                 if os.path.exists(TMP) and os.path.isdir(TMP):
@@ -301,7 +322,7 @@ if __name__ == '__main__':
             pos = attrib['Position']
             del attrib['Position']
             attrib['af'] = af
-            attrib['Type'] = attrib['Type'].replace('Reset', 'Input').replace('MonoIO', 'Power')
+            attrib['Type'] = attrib['Type'].replace('Reset', 'Input').replace('MonoIO', 'I/O')
             attrib['Type'] = attrib['Type'].replace('Boot', 'Input')
             if POWER_SPLIT:
                 if attrib['Type'] == 'Power':
@@ -355,6 +376,9 @@ if __name__ == '__main__':
                 string += '/' + table[k]['af'][0]
             ws['C' + str(i)] = string
         i += 1
+    ws['A' + str(i)] = 'Total: '
+    ws['B' + str(i)] = str(len(table))
+    i += 1
     if POWER_SPLIT:
         i += 1
         for t in [table_power, table_vdd, table_vss]:
@@ -363,4 +387,8 @@ if __name__ == '__main__':
                 ws['B' + str(i)] = t[k]['Type']
                 ws['C' + str(i)] = t[k]['Name']
                 i += 1
+        ws['A' + str(i)] = 'Total: '
+        ws['B' + str(i)] = str(len(table_power) + len(table_vdd) + len(table_vss))
+        i += 1
     wb.save(OUTFILE)
+    print('Done!')
