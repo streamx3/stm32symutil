@@ -49,10 +49,13 @@ Example:
          --mcu stm32f103cbt --power_split y -o 1.xlsx --af spi,i2c,uart,wkup,sys 
 ```
 
-### Example 1:
+### Examples:
+[Link example1](https://raw.githubusercontent.com/streamx3/stm32symutil/master/examples/Example1.md "Example 1") Basic example, with few alternative functions to display and separate power part.
+
+### Example old 1:
 The simplest way to run an app
 ```
-stm32symgen --mcu stm32f103tbu -o stm32f103tbu_none.xlsx --af none
+stm32symgen --mcu stm32f103tbu --power_split n -o stm32f103tbu_none.xlsx --af none
 ```
 ![Img 1](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_none_unsplit.png "Img 1: Unsorted power pins, no Alternative functions")
 ![Img 2](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_none_unsplit_sym.png "Img 2: Unsorted power pins, no Alternative functions, SYM")
@@ -68,8 +71,7 @@ stm32symgen --mcu stm32f103tbu --power_split y -o stm32f103tbu_all_split.xlsx --
 ![Img 13](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_all_split.png "Img 3: ")
 
 ### Example :
-![Img 14](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_basic.png "Img 4: ")
-![Img 15](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_basic_p1.png "Img 5: ")
+
 ![Img 16](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_none.png "Img 6: ")
 ![Img 17](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_none_p1.png "Img 7: ")
 ![Img 18](https://raw.githubusercontent.com/streamx3/stm32symutil/master/images/stm32f103tbu_none_p2.png "Img 8: ")
@@ -95,9 +97,7 @@ Symbol, part 2:
 stm32symgen --mcu stm32f103tbu --power_split y -o stm32f103tbu_none.xlsx --af none
 ```
 
-```
-stm32symgen --mcu stm32f103tbu --power_split y -o stm32f103tbu_basic.xlsx --af spi,i2c,uart,sys,wkup
-```
+
 
 ```
 stm32symgen --mcu stm32f103tbu --power_split y -o stm32f103tbu_all.xlsx --af all

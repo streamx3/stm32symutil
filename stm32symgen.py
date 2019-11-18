@@ -61,7 +61,7 @@ MCU = ''
 AF = 'first'
 AF_LIST = []
 AF_SPLIT = False
-POWER_SPLIT = False
+POWER_SPLIT = True
 OUTFILE = ''
 
 
