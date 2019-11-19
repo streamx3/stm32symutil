@@ -6,13 +6,19 @@ This program generates schematic symbols table for STM32 MCUs and CPUs.
 <br>
 
 ### Motivation:
+Yes you can (and probably should) generate you footprint using Altium Footprint Wizard.
+
+But:
+
 1) Your MCU might be new, and there might be no symbols on resources like SnapEDA or Ultra Librarian.
 2) Those existing ones might generate a tonn of clutter, look ugly and contain redundant non-native data when imported to Altium and even stay indexed as an additional library, despite the fact you only need them once. Not to mentoin bundled footprints sometimes have few pins misalligned.
+
+
 Hence, "If you want something done right, do it yourself".
 
 ### How to use?
 The implication is that you can generate a symbol table for preferred  MCU & package, and use Symbol Wizard in Altium, to create a beautiful native symbol in a jiffy.<br>
-If you'te not aware of Altium Symbol Wizard and ability to make multipart symbols -- spend 5 minutes now, and save hours in future: https://www.youtube.com/watch?v=ceTr369zpDo
+If you'te not aware of Altium Symbol Wizard and ability to make multipart symbols -- spend 5 minutes now, and save hours in future: https://www.youtube.com/watch?v=ceTr369zpDo <br>
 You're welcome!
 
 ### How it works?
@@ -55,15 +61,15 @@ Example:
 ```
 
 ### Examples:
-[Example1](https://github.com/streamx3/stm32symutil/blob/master/examples/Example1.md "Example 1"): Basic example, with few alternative functions to display and a separate power part.
+[Example 1](https://github.com/streamx3/stm32symutil/blob/master/examples/Example1.md "Example 1"): Basic example, with few alternative functions to display and a separate power part.
 
-[Example2](https://github.com/streamx3/stm32symutil/blob/master/examples/Example2.md "Example 2"): Minimal, no AF, 1 part
+[Example 2](https://github.com/streamx3/stm32symutil/blob/master/examples/Example2.md "Example 2"): Minimal, no AF, 1 part
 
-[Example3](https://github.com/streamx3/stm32symutil/blob/master/examples/Example3.md "Example 3"): Minimal, but 2 parts
+[Example 3](https://github.com/streamx3/stm32symutil/blob/master/examples/Example3.md "Example 3"): Minimal, but 2 parts
 
-[Example4-5](https://github.com/streamx3/stm32symutil/blob/master/examples/Example4-5.md "Example 4-5"): Using all the AFs
+[Example 4-5](https://github.com/streamx3/stm32symutil/blob/master/examples/Example4-5.md "Example 4-5"): Using all the AFs
 
-[Example6](https://github.com/streamx3/stm32symutil/blob/master/examples/Example6.md "Example 6"): Huge MP1 CPU
+[Example 6](https://github.com/streamx3/stm32symutil/blob/master/examples/Example6.md "Example 6"): Huge MP1 CPU
 
 <br>
 
