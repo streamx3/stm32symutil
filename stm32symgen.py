@@ -20,8 +20,9 @@ PATH = ''
 PATH_CUBEMX = ''
 PATH_CUBEIDE = ''
 
-PATH_CUBEMX_MAC = ''
-PATH_CUBEIDE_MAC = ''
+PATH_CUBEMX_MAC_2 = '/Applications/STM32CubeMX.app/'
+PATH_CUBEMX_MAC_1 = '/Applications/STMicroelectronics/STM32CubeMX.app/'
+PATH_CUBEIDE_MAC = '/Applications/STM32CubeIDE.app'
 
 PATH_CUBEMX_WIN = 'C:\\Program Files\\STMicroelectronics\\STM32Cube\\STM32CubeMX'
 PATH_CUBEIDE_WIN = 'C:\\ST\\'
@@ -194,7 +195,10 @@ if __name__ == '__main__':
     print('Dectected OS: ' + system)
     if system in systems_fixedpath:
         if system == 'Darwin':
-            PATH_CUBEMX = PATH_CUBEMX_MAC
+            if os.path.exists(PATH_CUBEMX_MAC_1):
+                PATH_CUBEMX = PATH_CUBEMX_MAC_1
+            else:
+                PATH_CUBEMX = PATH_CUBEMX_MAC_2
             PATH_CUBEIDE = PATH_CUBEIDE_MAC
         elif system == 'Windows':
             PATH_CUBEMX = PATH_CUBEMX_WIN
