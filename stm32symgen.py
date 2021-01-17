@@ -162,7 +162,7 @@ if __name__ == '__main__':
         # print('o: ' + o + '\ta: ' + a)
         if '--help' == o or '-h' == o:
             usage()
-        if '--mcu' == o == o:
+        if '--mcu' == o:
             MCU = a
             if MCU[-1:] == '.':
                 MCU_EXACT = True
